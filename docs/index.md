@@ -1,37 +1,28 @@
-## Welcome to GitHub Pages
+# Accompanying Website for Semi-supervised Synthesizer Sound Matching with Differentiable DSP
 
-You can use the [editor on GitHub](https://github.com/hyakuchiki/SSSSM-DDSP/edit/main/docs/index.md) to maintain and preview the content for your website in Markdown files.
+## Summary
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+While synthesizers have become commonplace in music production, many users find it difficult to control the parameters of a synthesizer to create the intended sound. In order to assist the user, the *sound matching* task aims to estimate synthesis parameters that produce a sound closest to the query sound.
 
-### Markdown
+In recent years, neural networks have been employed for this task. These neural networks are trained on paired data of synthesis parameters and the corresponding output sound, optimizing a loss of synthesis parameters. However, synthesis parameters are only indirectly correlated with the audio output. Another problem is that query made by the user usually consists of real-world sounds, different from the synthesizer output used during training.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+![comparison](figs/comparison.png)
 
-```markdown
-Syntax highlighted code block
+The proposed method implements a typical subtractive synthesizer using differentiable DSP modules. We can use this differentiable synthesizer during training to obtain a spectral loss of the actual synthesized sound and the target sound. We find that this is advantageous to using parameter loss for two reasons:
+- The spectral loss is more directly related to the output of the system.
+- We can train the network using out-of-domain (real-world) sounds, whose ground-truth synthesis parameters are unknown and cannot be trained using parameter loss.
 
-# Header 1
-## Header 2
-### Header 3
+![architecture](figs/architecture.png)
 
-- Bulleted
-- List
+### Differences from ISMIR2021 paper
 
-1. Numbered
-2. List
+- Differentiable ADSR envelopes
+- Effect modules
+  - Chorus
+  - Reverb
+- Analysis of parameter gradients
+- + More experiments for to shed light on the difficulties in sound matching
 
-**Bold** and _Italic_ and `Code` text
+## Audio Examples
 
-[Link](url) and ![Image](src)
-```
-
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/hyakuchiki/SSSSM-DDSP/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+TODO:
