@@ -1,0 +1,16 @@
+lr: 0.001
+decay_rate: 0.99
+
+estimator:
+  _target_: diffsynth.estimator.MfccEstimator
+  n_mels: 128
+  n_mfccs: 30
+  n_fft: 1024
+  hop: 256
+  sample_rate: 16000
+  num_layers: 2
+  hidden_size: 1024
+  dropout_p: 0.0
+  norm: instance
+
+log_grad: true

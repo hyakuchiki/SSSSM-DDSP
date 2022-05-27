@@ -1,0 +1,36 @@
+name: h1of_fx
+dag:
+  harmor:
+    config:
+      _target_: diffsynth.modules.harmor.Harmor
+      sample_rate: ${sample_rate}
+      sep_amp: true
+      n_oscs: 1
+    connections:
+      amplitudes: AMP
+      osc_mix: M_OSC
+      f0_hz: BFRQ
+      f0_mult: MULT
+      cutoff: CUTOFF
+      q: Q_FILT
+  moddelay:
+    config:
+      _target_: diffsynth.modules.delay.ModulatedDelay
+      sample_rate: ${sample_rate}
+    connections:
+      audio: harmor
+      delay_ms: MD_DELAY
+      phase: MD_PHASE
+      depth: MD_DEPTH
+      mix: MD_MIX
+  reverb:
+    config:
+      _target_: diffsynth.modules.reverb.DecayReverb
+      ir_length: 16000
+    connections:
+      audio: moddelay
+      gain: REV_GAIN
+      decay: REV_DEC
+fixed_params: 
+  MD_DEPTH: 0.25
+static_params: [BFRQ, M_OSC, MULT, Q_FILT, MD_DELAY, MD_DEPTH, MD_MIX, REV_GAIN, REV_DEC]

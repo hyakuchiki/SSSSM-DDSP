@@ -1,0 +1,14 @@
+.DS_Store
+.vscode/
+notes/
+__pycache__
+old/
+*.pyc
+runs/
+scripts/
+samples/
+outputs/
+myenv.yaml
+configs/exp
+logs/
+mlruns

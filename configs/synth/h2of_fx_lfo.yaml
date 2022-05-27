@@ -1,0 +1,49 @@
+name: h2of_fx_lfo
+# uses lfo for chorus
+dag:
+  lfomd:
+    config:
+      _target_: diffsynth.modules.lfo.LFO
+      channels: 1
+      rate_range: [0.1, 10.0]
+      frame_rate: 60
+      sample_rate: ${sample_rate}
+    connections:
+      rate: LFO_RATE
+      level: LFO_LEVEL
+  harmor:
+    config:
+      _target_: diffsynth.modules.harmor.Harmor
+      sample_rate: ${sample_rate}
+      sep_amp: true
+      n_oscs: 2
+    connections:
+      amplitudes: AMP
+      osc_mix: M_OSC
+      f0_hz: BFRQ
+      f0_mult: F0_MULT
+      cutoff: CUTOFF
+      q: Q_FILT
+  moddelay:
+    config:
+      _target_: diffsynth.modules.delay.ModulatedDelay
+      sample_rate: ${sample_rate}
+    connections:
+      audio: harmor
+      delay_ms: MD_DELAY
+      phase: lfomd
+      depth: MD_DEPTH
+      mix: MD_MIX
+  reverb:
+    config:
+      _target_: diffsynth.modules.reverb.DecayReverb
+      ir_length: 16000
+    connections:
+      audio: moddelay
+      gain: REV_GAIN
+      decay: REV_DEC
+fixed_params:
+  MD_DEPTH: 0.25
+  LFO_RATE: 1.0
+  LFO_LEVEL: 1.0
+static_params: [M_OSC, BFRQ, F0_MULT, Q_FILT, REV_GAIN, REV_DEC, LFO_RATE, LFO_LEVEL, MD_DELAY, MD_DEPTH, MD_MIX]

@@ -1,0 +1,1 @@
+Synth configs for gen_dataset.py.

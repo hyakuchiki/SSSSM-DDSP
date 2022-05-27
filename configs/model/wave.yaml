@@ -1,0 +1,12 @@
+lr: 0.001
+decay_rate: 0.99
+
+estimator:
+  _target_: diffsynth.estimator.FrameDilatedConvEstimator
+  frame_setting: finer
+  res_depth: 4
+  channels: 64
+  dilation_growth_rate: 3
+  m_conv: 1.0
+
+log_grad: true

@@ -1,0 +1,51 @@
+name: h2of_env
+# generates dynamic parameters (cutoff, amplitudes) using envelope/lfo
+# note off position is random
+dag:
+  enva:
+    config:
+      _target_: diffsynth.modules.envelope.ADSREnvelope
+      max_value: 0.6
+      channels: 2
+    connections:
+      floor: AMP_FLOOR
+      peak: PEAK_A
+      attack: AT_A
+      decay: DE_A
+      sus_level: SU_A
+      release: RE_A
+      note_off: NOTE_OFF
+      noise_mag: NOISE_A
+  envc:
+    config:
+      _target_: diffsynth.modules.envelope.ADSREnvelope
+      channels: 1
+    connections:
+      floor: CUT_FLOOR
+      peak: PEAK_C
+      attack: AT_C
+      decay: DE_C
+      sus_level: SU_C
+      release: RE_C
+      note_off: NOTE_OFF
+      noise_mag: NOISE_C
+  harmor:
+    config:
+      _target_: diffsynth.modules.harmor.Harmor
+      sample_rate: ${sample_rate}
+      sep_amp: true
+      n_oscs: 2
+    connections:
+      amplitudes: enva
+      osc_mix: M_OSC
+      f0_hz: BFRQ
+      f0_mult: F0_MULT
+      cutoff: envc
+      q: Q_FILT
+fixed_params:
+  AMP_FLOOR: 0
+  NOISE_A: 0
+  NOISE_C: 0
+  NOTE_OFF: 0.75
+static_params: [M_OSC, BFRQ, F0_MULT, Q_FILT, PEAK_A, AT_A, DE_A, SU_A, RE_A, AT_C, DE_C, SU_C, RE_C, CUT_FLOOR, PEAK_C, AMP_FLOOR, NOISE_A, NOISE_C, NOTE_OFF]
+# save_params is unnecessary

@@ -1,0 +1,29 @@
+_target_: diffsynth.data.MultiDataModule
+
+data_cfgs:
+  id:
+    _target_: diffsynth.data.WaveParamDataset
+    base_dir: null
+    sample_rate: ${sample_rate}
+    length: 4.0
+    params: true
+    f0: ${ext_f0}
+  ood:
+    _target_: diffsynth.data.FilteredNsynthDataset
+    base_dir: null
+    filter_args: 
+      ng_inst_list: []
+      ng_source_list: []
+      ng_quality_list: []
+      # within CREPE range
+      pitch_lower: 24 #C1
+      pitch_upper: 96 #up to but not including C6
+    sample_rate: ${sample_rate}
+    length: 4.0
+    f0: ${ext_f0}
+train_key: id
+batch_size: 64
+max_dat_size: 20000
+num_workers: 8
+splits: [0.8, 0.1, 0.1]
+seed: ${seed}

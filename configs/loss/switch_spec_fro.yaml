@@ -1,0 +1,27 @@
+losses:
+  param:
+    _target_: diffsynth.loss.ParamLoss
+    loss: 'l1'
+
+  spec:
+    _target_: diffsynth.loss.SpectralLoss
+    fft_sizes: [64, 128, 256, 512, 1024, 2048]
+    hop_lengths: null 
+    win_lengths: null
+    mag_w: 0.0
+    log_mag_w: 1.0
+    fro_w: 1.0
+
+sched:
+  param:
+    type: linear
+    start: 12500
+    warm: 37500
+    start_v: 10.0
+    end_v: 0.0
+  spec:
+    type: linear
+    start: 12500
+    warm: 37500
+    start_v: 0.0
+    end_v: 0.5

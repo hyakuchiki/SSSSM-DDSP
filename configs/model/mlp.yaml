@@ -1,0 +1,13 @@
+lr: 0.001
+decay_rate: 0.99
+
+estimator:
+  _target_: diffsynth.estimator.MelMLPEstimator
+  n_mels: 128
+  n_fft: 1024
+  hop: 256
+  sample_rate: 16000
+  num_layers: 3
+  hidden_size: 1024
+
+log_grad: false

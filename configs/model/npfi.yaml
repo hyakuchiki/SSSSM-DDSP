@@ -1,0 +1,16 @@
+lr: 0.0005
+decay_rate: 0.99
+
+estimator:
+  _target_: diffsynth.estimator.MelFramesEstimator
+  n_mels: 128
+  n_fft: 1024
+  hop: 256
+  sample_rate: 16000
+  channels: 64
+  kernel_size: 7
+  strides: [2,2,2]
+  num_layers: 1
+  hidden_size: 1024
+
+log_grad: true
