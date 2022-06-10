@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.honokak.osaka/rin/3.3.7-2/css/bootstrap.min.css">
+        <style media="screen">
+            .align-middle { vertical-align: middle !important; }
+            body { min-height: 100vh; display: flex; flex-direction: column; }
+            .contents { flex: 1; }
+            footer { height: 4em; display: flex; align-items: center; background: #efefef; }
+        </style>
+        <script type="text/javascript">
+            function selectExperiment() {
+                let experiment = document.getElementById('select-exp').value;
+                // choose representative (non-loud) sounds
+                let soundIds = ['000', '005', '007', '022', '030', '039', '053', '059'];
+                let modelIds = ['target', 'ploss', 'synth', 'real'];
+                if (['Raw-Env', 'Raw'].includes(experiment)) {
+                    for (let i = 1; i < 9; i++) {
+                        let audio_id =  i.toString(10) + '-' + 'even';
+                        document.getElementById(audio_id).style.display = "none";
+                    }
+                }
+                else {
+                    modelIds = ['target', 'ploss', 'synth', 'real', 'even'];
+                    for (let i = 1; i < 9; i++) {
+                        let audio_id =  i.toString(10) + '-' + 'even';
+                        document.getElementById(audio_id).style.display = "block";
+                    };
+                }
+                modelIds.forEach(function(model) {
+                    var i=1;
+                    soundIds.forEach(function(sound){
+                        let audio_id =  i.toString(10) + '-' + model;
+                        document.getElementById(audio_id).src = 'data/' + experiment + '/' + model + '/ood_' + sound + '.mp3';
+                        i++;
+                    });
+                });
+            }
+            window.onload = function() {
+                selectExperiment();
+            }
+        </script>
+        <title>Semi-supervised Synthesizer Sound Matching with Differentiable DSP</title>
+    </head>
+    <body>
+        <div class="contents container">
+            <h1>Accompanying Website for Semi-supervised Synthesizer Sound Matching with Differentiable DSP</h1>
+            <h2>Summary</h2>
+            <p>While synthesizers have become commonplace in music production, many users find it difficult to control the parameters of a synthesizer to create the intended sound. In order to assist the user, the *sound matching* task aims to estimate synthesis parameters that produce a sound closest to the query sound.
+            In recent years, neural networks have been employed for this task. These neural networks are trained on paired data of synthesis parameters and the corresponding output sound, optimizing a loss of synthesis parameters. However, synthesis parameters are only indirectly correlated with the audio output. Another problem is that query made by the user usually consists of real-world sounds, different from the synthesizer output used during training.
+            </p>
+            <img class="fit-picture"
+             src="figs/comparison.png"
+             alt="Comparison of previous and proposed methods">
+            <p>
+            The proposed method implements a typical subtractive synthesizer using differentiable DSP modules. We can use this differentiable synthesizer during training to obtain a spectral loss of the actual synthesized sound and the target sound. We can train the network using out-of-domain (real-world) sounds, whose ground-truth synthesis parameters are unknown and cannot be trained using parameter loss.
+            </p>
+            <img class="fit-picture"
+             src="figs/architecture.png"
+             alt="Proposed method">
+            <h2>Differences from ISMIR2021 paper</h2>
+            <ul>
+              <li>Differentiable ADSR envelopes</li>
+              <li>Effect modules (Chorus, Reverb)</li>
+              <li>Analysis of parameter gradients</li>
+              <li>More experiments for to shed light on the difficulties in sound matching</li>
+            </ul>
+            <h2>Sound matching examples</h2>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">Experiment</label>
+                    <div class="col-xs-10">
+                        <select id="select-exp" class="form-control" onChange="selectExperiment()">
+                            <option value="Raw">Raw</option>
+                            <option value="Raw-Env">Raw-Env</option>
+                            <option value="FX">FX</option>
+                            <option value="FX-Env">FX-Env</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+            <table class="table">
+                <thead>
+                    <tr><th>Target</th><th>P-loss</th><th>Synth</th><th>Real</th><th>Mixed</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><audio id="1-target" controls/></td><td><audio id="1-ploss" controls/></td>
+                        <td><audio id="1-synth" controls/></td><td><audio id="1-real" controls/></td><td><audio id="1-even" controls/></td></tr>
+                    <tr><td><audio id="2-target" controls/></td><td><audio id="2-ploss" controls/></td>
+                        <td><audio id="2-synth" controls/></td><td><audio id="2-real" controls/></td><td><audio id="2-even" controls/></td></tr>
+                    <tr><td><audio id="3-target" controls/></td><td><audio id="3-ploss" controls/></td>
+                        <td><audio id="3-synth" controls/></td><td><audio id="3-real" controls/></td><td><audio id="3-even" controls/></td></tr>
+                    <tr><td><audio id="4-target" controls/></td><td><audio id="4-ploss" controls/></td>
+                        <td><audio id="4-synth" controls/></td><td><audio id="4-real" controls/></td><td><audio id="4-even" controls/></td></tr>
+                    <tr><td><audio id="5-target" controls/></td><td><audio id="5-ploss" controls/></td>
+                        <td><audio id="5-synth" controls/></td><td><audio id="5-real" controls/></td><td><audio id="5-even" controls/></td></tr>
+                    <tr><td><audio id="6-target" controls/></td><td><audio id="6-ploss" controls/></td>
+                        <td><audio id="6-synth" controls/></td><td><audio id="6-real" controls/></td><td><audio id="6-even" controls/></td></tr>
+                    <tr><td><audio id="7-target" controls/></td><td><audio id="7-ploss" controls/></td>
+                        <td><audio id="7-synth" controls/></td><td><audio id="7-real" controls/></td><td><audio id="7-even" controls/></td></tr>
+                    <tr><td><audio id="8-target" controls/></td><td><audio id="8-ploss" controls/></td>
+                        <td><audio id="8-synth" controls/></td><td><audio id="8-real" controls/></td><td><audio id="8-even" controls/></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
